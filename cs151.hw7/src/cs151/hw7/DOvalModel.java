@@ -1,5 +1,5 @@
 package cs151.hw7;
 
-public class DOvalModel extends DShapeModel{
+public class DOvalModel {
 
 }
