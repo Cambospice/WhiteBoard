@@ -40,21 +40,22 @@ public class Whiteboard extends JFrame{
 		rect.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				canvas.addShape(new DRect());
-				canvas.repaint();;
+				canvas.repaint();
 			}
 		});
 		b.add(rect);
 		b.add(Box.createHorizontalStrut(40));
 		JButton oval = new JButton("Oval");
-		rect.addActionListener(new ActionListener(){
+		oval.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				
+				canvas.addShape(new DOval());
+				canvas.repaint();
 			}
 		});
 		b.add(oval);
 		b.add(Box.createHorizontalStrut(40));
 		JButton line  = new JButton("Line");
-		rect.addActionListener(new ActionListener(){
+		line.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				
 			}
@@ -62,7 +63,7 @@ public class Whiteboard extends JFrame{
 		b.add(line);
 		b.add(Box.createHorizontalStrut(40));
 		JButton text = new JButton("Text");
-		rect.addActionListener(new ActionListener(){
+		text.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				
 			}

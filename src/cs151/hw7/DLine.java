@@ -6,7 +6,7 @@ import java.awt.Color;
 public class DLine extends DShape {
 	
 	public DLine(){
-		setModel(new DLineModel(0,0,0,0,Color.GRAY));
+		setModel(new DLineModel());
 	}
 	
 	public DLine(DShapeModel model) {

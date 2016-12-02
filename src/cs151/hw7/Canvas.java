@@ -26,6 +26,11 @@ public class Canvas extends JPanel{
 			DRect rect = new DRect(rectModel);
 			shapes.add(rect);
 		}
+		else if(shape instanceof DOvalModel){
+			DOvalModel ovalModel = (DOvalModel) shape;
+			DOval oval = new DOval(ovalModel);
+			shapes.add(oval);
+		}
 	}
 	
 	public void paintComponent(Graphics g){
@@ -34,6 +39,13 @@ public class Canvas extends JPanel{
 			if (shape instanceof DRect){
 				DRect rect = (DRect)shape;
 				rect.draw(g);
+			}
+			else if(shape instanceof DOval){
+				DOval oval = (DOval)shape;
+				oval.draw(g);
+			}
+			else if(shape instanceof DLine){
+				
 			}
 		}
 	}
