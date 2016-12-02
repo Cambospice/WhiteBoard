@@ -1,15 +1,18 @@
 package cs151.hw7;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
+import java.awt.event.*;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class Canvas extends JPanel{
 	public Canvas() {
 		super();
 		this.setPreferredSize(new Dimension(400,400));
 		this.setBackground(Color.WHITE);
+		
+	
 	}
+	
 
 }
