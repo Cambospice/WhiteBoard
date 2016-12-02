@@ -17,7 +17,6 @@ public class Canvas extends JPanel{
 	}
 	
 	public void addShape(DShape shape){
-		shapes.add(shape);
 		addShape(shape.getModel());
 	}
 	
@@ -25,7 +24,17 @@ public class Canvas extends JPanel{
 		if (shape instanceof DRectModel) {
 			DRectModel rectModel = (DRectModel) shape;
 			DRect rect = new DRect(rectModel);
-			this.add(rect);
+			shapes.add(rect);
+		}
+	}
+	
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		for(DShape shape: shapes){
+			if (shape instanceof DRect){
+				DRect rect = (DRect)shape;
+				rect.draw(g);
+			}
 		}
 	}
 	

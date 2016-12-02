@@ -6,7 +6,7 @@ import javax.swing.JComponent;
 /**
  * Created by Roshni Velluva Puthanidam on 28/11/16.
  */
-public class DShape extends JComponent {
+public class DShape {
 
     public DShapeModel model;
     public static boolean isSelected = false;
