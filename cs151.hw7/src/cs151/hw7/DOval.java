@@ -1,5 +1,17 @@
 package cs151.hw7;
 
-public class DOval {
+import java.awt.Graphics;
 
+public class DOval extends DShape{
+
+	public DOval(DShapeModel model) {
+		super(model);
+		// TODO Auto-generated constructor stub
+	}
+
+	public void draw(Graphics g) {
+		g.setColor(model.getColor());
+		g.fillOval(model.getX(), model.getY(), model.getWidth(), model.getHeight());
+		DOvalModel.showKnobsIfSelected(g);
+	}
 }
