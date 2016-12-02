@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.JComponent;
 
 public class Whiteboard extends JFrame{
@@ -16,7 +17,6 @@ public class Whiteboard extends JFrame{
 		super("Whiteboard");
 		this.setLayout(border);
 		this.setSize(800,400);
-		this.add(canvas,BorderLayout.CENTER);
 		Box controls = controls();
 		Box color = color();
 		Box movement = movement();
@@ -39,7 +39,8 @@ public class Whiteboard extends JFrame{
 		JButton rect = new JButton("Rect");
 		rect.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				
+				canvas.addShape(new DRect());
+				canvas.repaint();;
 			}
 		});
 		b.add(rect);
@@ -67,6 +68,7 @@ public class Whiteboard extends JFrame{
 			}
 		});
 		b.add(text);
+		this.add(canvas,BorderLayout.CENTER);
 		return b;
 	}
 	
@@ -110,8 +112,13 @@ public class Whiteboard extends JFrame{
 		return b;
 	}
 	
-	public Box text(){
+	public Box text(){ //not written
 		return null;
+	}
+	
+	public JTable table(){ //not written
+		JTable table = new JTable();
+		return table;
 	}
 	
 	public static void main(String[] args){

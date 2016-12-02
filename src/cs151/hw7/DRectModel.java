@@ -7,8 +7,12 @@ import java.awt.*;
  */
 public class DRectModel extends DShapeModel {
 
-    public DRectModel(int x, int y, int width, int height, Color color) {
-        super(x, y, width, height, color);
+    public DRectModel() {
+        super();
+    }
+    
+    public DRectModel(DShapeModel model){
+    	super(model);
     }
 
     public static void showKnobsIfSelected(Graphics g) {

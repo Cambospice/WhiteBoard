@@ -1,9 +1,14 @@
 package cs151.hw7;
 
 import java.awt.Graphics;
+import java.awt.Color;
 
 public class DLine extends DShape {
-
+	
+	public DLine(){
+		setModel(new DLineModel(0,0,0,0,Color.GRAY));
+	}
+	
 	public DLine(DShapeModel model) {
 		super(model);
 		// TODO Auto-generated constructor stub

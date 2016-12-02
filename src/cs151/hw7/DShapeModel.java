@@ -19,12 +19,20 @@ public class DShapeModel implements Serializable {
     public static final Rectangle[] knobs = new Rectangle[4];
 
 
-    public DShapeModel(int x, int y, int width, int height, Color color) {
-        this.x = new Random().nextInt(800);
-        this.y = new Random().nextInt(550);
+    public DShapeModel() {
+        this.x = new Random().nextInt(400);
+        this.y = new Random().nextInt(400);
         this.width = 50;
         this.height = 50;
         this.color = Color.GRAY;
+    }
+    
+    public DShapeModel(DShapeModel model){
+    	this.x = model.getX();
+    	this.y = model.getY();
+    	this.width = model.getWidth();
+    	this.height = model.getHeight();
+    	this.color = model.getColor();
     }
 
     public int getX() {
