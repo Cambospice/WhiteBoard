@@ -1,5 +1,8 @@
 package cs151.hw7;
 
+import java.awt.*;
+
+import javax.swing.JComponent;
 /**
  * Created by Roshni Velluva Puthanidam on 28/11/16.
  */
@@ -12,6 +15,11 @@ public class DShape {
      * Constructs a DShape object with a model for its data
      * @param model to store data in
      */
+    
+    public DShape(){
+    	model = new DShapeModel();
+    }
+    
     public DShape(DShapeModel model) {
         this.model = model;
     }
@@ -23,4 +31,6 @@ public class DShape {
     public DShapeModel getModel() {
         return this.model;
     }
+    
+    
 }

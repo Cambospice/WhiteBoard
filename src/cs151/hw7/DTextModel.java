@@ -1,37 +1,24 @@
 package cs151.hw7;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.*;
 
+/**
+ * Created by Roshni Velluva Puthanidam on 05/12/16.
+ */
 public class DTextModel extends DShapeModel {
-	private String defaultWord = "Hello";
-	private String defaultFont = "Dialog";
-	private String theWord;
-	private String theFont;
- 	public DTextModel() {
-		super();
-		theWord = defaultWord;
-		theFont = defaultFont;
-	}
- 	
- 	public String getText()
- 	{
- 		return theWord;
- 	}
- 	
- 	public String getFont()
- 	{
- 		return theFont;
- 	}
+    public DTextModel(){
+        super();
+    }
 
-	public static void showKnobsIfSelected(Graphics g) {
-		if (DShape.isSelected) {
-			Rectangle[] knobs = getKnobs();
-			for (int i = 0; i < knobs.length; i++) {
-				g.setColor(Color.GRAY);
-				g.fillRect(knobs[i].x, knobs[i].y, knobs[i].width, knobs[i].height);
-			}
-		}
-	}
+    public DTextModel(DTextModel model){
+        super(model);
+    }
+    public static void showKnobsIfSelected(Graphics g) {
+        if (DShape.isSelected) {
+            for(int i = 0; i < knobs.length; i++) {
+                g.setColor(Color.GRAY);
+                g.fillRect(knobs[i].x, knobs[i].y, knobs[i].width, knobs[i].height);
+            }
+        }
+    }
 }
