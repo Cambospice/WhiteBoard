@@ -5,16 +5,10 @@ package cs151.hw7;
  */
 import java.awt.*;
 
-public class DRect extends DShape{
+public class DRect {
 
-	public DRect(){
-		setModel(new DRectModel());
-	}
-	
-	public DRect(DRectModel model){
-		super(model);
-	}
-    
+    DShapeModel model;
+
     public void draw(Graphics g) {
         g.setColor(model.getColor());
         g.fillRect(model.getX(), model.getY(), model.getWidth(), model.getHeight());
