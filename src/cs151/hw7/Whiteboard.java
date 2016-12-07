@@ -3,18 +3,16 @@ package cs151.hw7;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
 
 public class Whiteboard extends JFrame {
 	BorderLayout border = new BorderLayout();
 	Canvas canvas = new Canvas();
-	static JPanel controlPanel;
-	static JFrame boardFrame;
-	// static Canvas canvas;
-
-	static String item;
-	static JTextField text;
 
 	public Whiteboard() {
 		super("Whiteboard");
@@ -42,6 +40,7 @@ public class Whiteboard extends JFrame {
 
 	public Box controls() {
 		Box b = Box.createHorizontalBox();
+		Box vb = Box.createVerticalBox();
 		JButton rect = new JButton("Rect");
 		rect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -67,16 +66,9 @@ public class Whiteboard extends JFrame {
 				canvas.repaint();
 			}
 		});
-		b.add(line);
+		vb.add(line);
+		vb.add(b);
 		b.add(Box.createHorizontalStrut(40));
-		JButton text = new JButton("Text");
-		text.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				canvas.addShape(new DText());
-				canvas.repaint();
-			}
-		});
-		b.add(text);
 		this.add(canvas, BorderLayout.CENTER);
 		return b;
 	}
@@ -84,10 +76,23 @@ public class Whiteboard extends JFrame {
 	public Box color() {
 		Box b = Box.createHorizontalBox();
 		JButton color = new JButton("Set Color");
-		color.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 
+		color.addActionListener(new ActionListener() {
+			Color c;
+
+			public void actionPerformed(ActionEvent e) {
+				c = JColorChooser.showDialog(null, "Pick a Color", canvas.getForeground());
+				if (c != null)
+					color.setForeground(c);
 			}
+
+			public void mouseClicked(MouseEvent e) {
+
+				canvas.setBackground(c);
+
+				repaint();
+			}
+
 		});
 		b.add(color);
 		return b;
@@ -124,17 +129,56 @@ public class Whiteboard extends JFrame {
 
 	public Box text() { // not written
 		Box b = Box.createHorizontalBox();
+		Box combinedBox = Box.createVerticalBox();
 		b.add(Box.createHorizontalStrut(40));
-		text = new JTextField();
+		JTextField text = new JTextField();
 		text.setMaximumSize(new Dimension(400, 500));
-		text.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e)
-			{
-				DTextModel.setText(text.getText());
+		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		int dialogIndex = 0;
+		for(int i=0; i < fonts.length; i++){
+			if(fonts[i].equals("Dialog")){
+				dialogIndex = i;
+			}
+		}
+		JComboBox<String> font = new JComboBox<>(fonts);
+		font.setSelectedIndex(dialogIndex);
+		font.setMaximumSize(new Dimension(100, 100));
+		JButton textButton = new JButton("Text");
+		textButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DText textfile = new DText();
+				DTextModel model = new DTextModel();
+				model.setFont((String)font.getSelectedItem());
+				if(text.getText().equals(null)){
+				model.setText(text.getText());
+				}
+				textfile.setModel(model);
+				canvas.addShape(textfile);
+				canvas.repaint();
 			}
 		});
+		combinedBox.add(font);
 		b.add(text);
-		return b;
+		b.add(textButton);
+		combinedBox.add(b);
+		return combinedBox;
+	}
+	
+	public void saveImage(File file) {
+		// Create an image bitmap, same size as ourselves
+		BufferedImage image = (BufferedImage) createImage(getWidth(), getHeight());
+		// Get Graphics pointing to the bitmap, and call paintAll()
+		// This is the RARE case where calling paint() is appropriate
+		// (normally the system calls paint()/paintComponent())
+		Graphics g = image.getGraphics();
+		paintAll(g);
+		g.dispose(); // Good but not required--
+		// dispose() Graphics you create yourself when done with them.
+		try {
+			javax.imageio.ImageIO.write(image, "PNG", file);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public JTable table() { // not written

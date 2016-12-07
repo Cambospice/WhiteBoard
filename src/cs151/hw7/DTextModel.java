@@ -1,14 +1,15 @@
 package cs151.hw7;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class DTextModel extends DShapeModel {
 	private String defaultWord = "Hello";
 	private String defaultFont = "Dialog";
-	private static String theWord;
-	private static String theFont;
+	private String theWord;
+	private String theFont;
 
 	public DTextModel() {
 		super();
@@ -24,11 +25,11 @@ public class DTextModel extends DShapeModel {
 		theFont = f;
 	}
 
-	public static String getText() {
+	public String getText() {
 		return theWord;
 	}
 
-	public static String getFont() {
+	public String getFont() {
 		return theFont;
 	}
 
