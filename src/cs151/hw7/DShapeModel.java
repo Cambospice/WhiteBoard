@@ -2,6 +2,7 @@ package cs151.hw7;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -14,6 +15,7 @@ public class DShapeModel implements Serializable {
     private int height;
     private Color color;
     private Rectangle shapeRectangle;
+    private ArrayList<ModelListener> listeners = new ArrayList<>();
 
     public static final int KNOB_SIZE = 12;
     public static final Rectangle[] knobs = new Rectangle[4];
@@ -61,26 +63,33 @@ public class DShapeModel implements Serializable {
 
     public void setX(int x) {
         this.x = x;
+        notifyListeners();
     }
 
     public void setY(int y) {
         this.y = y;
+        notifyListeners();
     }
 
     public void setWidth(int width) {
+
         this.width = width;
+        notifyListeners();
     }
 
     public void setHeight(int height) {
         this.height = height;
+        notifyListeners();
     }
 
     public void setColor(Color color) {
         this.color = color;
+        notifyListeners();
     }
 
     public void setShapeRectangle(Rectangle shapeRectangle) {
         this.shapeRectangle = shapeRectangle;
+        notifyListeners();
     }
 
     public static Rectangle[] getKnobs() {
@@ -90,4 +99,16 @@ public class DShapeModel implements Serializable {
     public Rectangle getBounds(){
         return new Rectangle(getX(), getY(), getWidth() + 9, getHeight() + 9);
     }
+
+    public ArrayList<ModelListener> getListeners() {
+        return listeners;
+    }
+
+    public void notifyListeners(){
+
+        for(ModelListener listener: listeners){
+            listener.modelChanged(DShapeModel.this);
+        }
+    }
+
 }
