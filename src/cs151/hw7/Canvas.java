@@ -15,20 +15,16 @@ public class Canvas extends JPanel{
 		this.setPreferredSize(new Dimension(400,400));
 		this.setBackground(Color.WHITE);
 		shapes = new ArrayList<>();
-		final int distX = 0;
-		final int distY = 0;
 		this.addMouseListener(new MouseAdapter(){
 			
 			public void mousePressed(MouseEvent e){
 				int x = e.getX();
 				int y = e.getY();
 				selected = null;
-				System.out.println(x);
 				for(DShape shape : shapes){
 					if(shape.getModel().getBounds().contains(new Point(x,y))){
 						selected = shape;
-						distX = e.getX() - selected.getModel().getX();
-						distY = e.getY() - selected.getModel().getY();
+						
 						
 					}
 				}
@@ -50,8 +46,8 @@ public class Canvas extends JPanel{
 			}
 			public void mouseDragged(MouseEvent e){
 				if(selected != null){
-				int x = e.getX() - distX;
-				int y = e.getY() - distY;
+				int x = e.getX();
+				int y = e.getY();
 				selected.getModel().setX(x);
 				selected.getModel().setY(y);
 				repaint();
