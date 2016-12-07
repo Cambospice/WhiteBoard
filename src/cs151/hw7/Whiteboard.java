@@ -66,9 +66,21 @@ public class Whiteboard extends JFrame {
 				canvas.repaint();
 			}
 		});
-		vb.add(line);
-		vb.add(b);
+		b.add(line);
+		
 		b.add(Box.createHorizontalStrut(40));
+		JButton save = new JButton("Save");
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				String result = JOptionPane.showInputDialog("File Name", null);
+				if (result != null) {
+					File f = new File(result);
+					saveImage(f);
+				}
+			}
+		});
+		b.add(save);
+
 		this.add(canvas, BorderLayout.CENTER);
 		return b;
 	}
