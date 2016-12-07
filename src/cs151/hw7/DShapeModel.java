@@ -86,4 +86,8 @@ public class DShapeModel implements Serializable {
     public static Rectangle[] getKnobs() {
         return knobs;
     }
+    
+    public Rectangle getBounds(){
+        return new Rectangle(getX(), getY(), getWidth() + 9, getHeight() + 9);
+    }
 }

@@ -9,29 +9,53 @@ import javax.swing.*;
 
 public class Canvas extends JPanel{
 	ArrayList<DShape> shapes;
-	
+	DShape selected;
 	public Canvas() {
 		super();
 		this.setPreferredSize(new Dimension(400,400));
 		this.setBackground(Color.WHITE);
 		shapes = new ArrayList<>();
+		final int distX = 0;
+		final int distY = 0;
 		this.addMouseListener(new MouseAdapter(){
-			public void mouseClick(MouseEvent e){
+			
+			public void mousePressed(MouseEvent e){
 				int x = e.getX();
 				int y = e.getY();
+				selected = null;
+				System.out.println(x);
 				for(DShape shape : shapes){
-					int shapeX = shape.getModel().getX();
-					int shapeY = shape.getModel().getY();
-					int xWidth = shape.getModel().getWidth();
-					int yHeight = shape.getModel().getHeight();
-					if((shapeX > x && x < shapeX + xWidth) && (shapeY > y && y < shapeY + yHeight) ){
+					if(shape.getModel().getBounds().contains(new Point(x,y))){
+						selected = shape;
+						distX = e.getX() - selected.getModel().getX();
+						distY = e.getY() - selected.getModel().getY();
 						
 					}
 				}
 			}
-			
+		});
+		this.addMouseMotionListener(new MouseAdapter(){
+		
+			public void mousePressed(MouseEvent e){
+				int x = e.getX();
+				int y = e.getY();
+				selected = null;
+				System.out.println(x);
+				for(DShape shape : shapes){
+					if(shape.getModel().getBounds().contains(new Point(x,y))){
+						selected = shape;
+						
+					}
+				}
+			}
 			public void mouseDragged(MouseEvent e){
-				
+				if(selected != null){
+				int x = e.getX() - distX;
+				int y = e.getY() - distY;
+				selected.getModel().setX(x);
+				selected.getModel().setY(y);
+				repaint();
+				}
 			}
 		});
 	}

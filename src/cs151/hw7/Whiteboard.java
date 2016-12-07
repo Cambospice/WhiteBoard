@@ -40,7 +40,6 @@ public class Whiteboard extends JFrame {
 
 	public Box controls() {
 		Box b = Box.createHorizontalBox();
-		Box vb = Box.createVerticalBox();
 		JButton rect = new JButton("Rect");
 		rect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -66,8 +65,7 @@ public class Whiteboard extends JFrame {
 				canvas.repaint();
 			}
 		});
-		vb.add(line);
-		vb.add(b);
+		b.add(line);
 		b.add(Box.createHorizontalStrut(40));
 		this.add(canvas, BorderLayout.CENTER);
 		return b;
