@@ -67,8 +67,6 @@ public class Whiteboard extends JFrame {
 			}
 		});
 		b.add(line);
-		b.add(line);
-		
 		b.add(Box.createHorizontalStrut(40));
 		JButton save = new JButton("Save");
 		save.addActionListener(new ActionListener() {
