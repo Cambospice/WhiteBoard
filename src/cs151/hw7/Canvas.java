@@ -3,6 +3,8 @@ package cs151.hw7;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -15,47 +17,11 @@ public class Canvas extends JPanel{
 		this.setPreferredSize(new Dimension(400,400));
 		this.setBackground(Color.WHITE);
 		shapes = new ArrayList<>();
-		this.addMouseListener(new MouseAdapter(){
-			
-			public void mousePressed(MouseEvent e){
-				int x = e.getX();
-				int y = e.getY();
-				selected = null;
-				for(DShape shape : shapes){
-					if(shape.getModel().getBounds().contains(new Point(x,y))){
-						selected = shape;
-						
-						
-					}
-				}
-			}
-		});
-		this.addMouseMotionListener(new MouseAdapter(){
-		
-			public void mousePressed(MouseEvent e){
-				int x = e.getX();
-				int y = e.getY();
-				selected = null;
-				System.out.println(x);
-				for(DShape shape : shapes){
-					if(shape.getModel().getBounds().contains(new Point(x,y))){
-						selected = shape;
-						
-					}
-				}
-			}
-			public void mouseDragged(MouseEvent e){
-				if(selected != null){
-				int x = e.getX();
-				int y = e.getY();
-				selected.getModel().setX(x);
-				selected.getModel().setY(y);
-				repaint();
-				}
-			}
-		});
+		Dragger drag = new Dragger();
+		this.addMouseListener(drag);
+		this.addMouseMotionListener(drag);
 	}
-	
+			
 	public void addShape(DShape shape){
 		addShape(shape.getModel());
 	}
@@ -106,6 +72,64 @@ public class Canvas extends JPanel{
 
 			}
 		}
+	}
+	
+	private class Dragger implements MouseListener, MouseMotionListener {
+		int distX;
+		int distY;
+		public void mousePressed(MouseEvent e){
+			int x = e.getX();
+			int y = e.getY();
+			selected = null;
+			for(DShape shape : shapes){
+				if(shape.getModel().getBounds().contains(new Point(x,y))){
+					selected = shape;
+					distX = e.getX() - shape.getModel().getX(); 
+					distY = e.getY() - shape.getModel().getY();
+					
+				}
+			}
+		}
+		public void mouseDragged(MouseEvent e){
+			if(selected != null){
+			int x = e.getX() - distX;
+			int y = e.getY() - distY;
+			selected.getModel().setX(x);
+			selected.getModel().setY(y);
+			repaint();
+			}
+		}
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 	
 }
