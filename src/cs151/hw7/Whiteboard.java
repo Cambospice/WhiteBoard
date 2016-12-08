@@ -94,16 +94,10 @@ public class Whiteboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				c = JColorChooser.showDialog(null, "Pick a Color", canvas.getForeground());
 				if (c != null)
-					color.setForeground(c);
+					color.setBackground(c);
+					canvas.paintSelected(c);
+					canvas.repaint();
 			}
-
-			public void mouseClicked(MouseEvent e) {
-
-				canvas.setBackground(c);
-
-				repaint();
-			}
-
 		});
 		b.add(color);
 		return b;

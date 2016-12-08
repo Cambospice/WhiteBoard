@@ -54,6 +54,10 @@ public class Canvas extends JPanel{
 		}
 	}
 	
+	public void paintSelected(Color c){
+		selected.getModel().setColor(c);
+	}
+	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		for(DShape shape: shapes){
