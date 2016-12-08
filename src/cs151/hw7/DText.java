@@ -23,7 +23,12 @@ public class DText extends DShape {
 		DTextModel textModel = (DTextModel) model;
 		Font font = new Font(textModel.getFont(), Font.PLAIN, (int)startingSize);
 		FontMetrics metrics = g.getFontMetrics(font);
-		return null;
+		while(metrics.getHeight()<getModel().getBounds().getHeight()){
+			startingSize=(startingSize*1.10)+1;
+			font = new Font(textModel.getFont(),Font.PLAIN,(int)startingSize);
+			metrics = g.getFontMetrics(font);
+		}
+		return font;
 	}
 	
 	public void draw(Graphics g) {
@@ -32,7 +37,7 @@ public class DText extends DShape {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Font font = computeFont(g);
 		g2.setFont(font);
-		g2.drawString(textModel.getText(), model.getX(), model.getY());
+		g2.drawString(textModel.getText(), textModel.getX(), textModel.getY()+textModel.getHeight());
 
 	}
 }

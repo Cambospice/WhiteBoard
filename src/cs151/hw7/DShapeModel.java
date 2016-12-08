@@ -89,7 +89,7 @@ public class DShapeModel implements Serializable {
     }
     
     public Rectangle getBounds(){
-        return new Rectangle(getX(), getY(), getWidth() + 9, getHeight() + 9);
+        return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
     public ArrayList<ModelListener> getListeners() {

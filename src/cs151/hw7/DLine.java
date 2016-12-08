@@ -18,7 +18,6 @@ public class DLine extends DShape {
 	}
 
 	public void draw(Graphics g) {
-
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
@@ -27,5 +26,13 @@ public class DLine extends DShape {
 		g2.drawLine(model.getX(), model.getY(), model.getX() + model.getHeight(), model.getY() + model.getHeight());
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		//DLineModel.showKnobsIfSelected(g2);
+	}
+	
+	public Point[] getKnobs(){
+		DLineModel lineModel = (DLineModel) getModel();
+		Point[] knobs = new Point[2];
+		knobs[0] = lineModel.getP1();
+		knobs[1] = lineModel.getP2();
+		return knobs;
 	}
 }

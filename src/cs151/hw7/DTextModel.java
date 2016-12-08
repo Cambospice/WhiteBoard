@@ -16,6 +16,12 @@ public class DTextModel extends DShapeModel {
 		theWord = defaultWord;
 		theFont = defaultFont;
 	}
+	
+	public DTextModel(DShapeModel model){
+		super(model);
+		theWord = defaultWord;
+		theFont = defaultFont;
+	}
 
 	public void setText(String t) {
 		theWord = t;
@@ -32,5 +38,5 @@ public class DTextModel extends DShapeModel {
 	public String getFont() {
 		return theFont;
 	}
-
+	
 }

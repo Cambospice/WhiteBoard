@@ -108,7 +108,8 @@ public class Whiteboard extends JFrame {
 		JButton moveToFront = new JButton("Move to Front");
 		moveToFront.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				canvas.moveToFront();
+				canvas.repaint();
 			}
 		});
 		b.add(moveToFront);
@@ -116,13 +117,14 @@ public class Whiteboard extends JFrame {
 		JButton moveToBack = new JButton("Move to Back");
 		moveToBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				canvas.moveToBack();
+				canvas.repaint();
 			}
 		});
 		b.add(moveToBack);
 		b.add(Box.createHorizontalStrut(40));
 		JButton remove = new JButton("Remove");
-		moveToFront.addActionListener(new ActionListener() {
+		remove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				canvas.deleteShape();
 				canvas.repaint();
@@ -155,7 +157,7 @@ public class Whiteboard extends JFrame {
 				DText textfile = new DText();
 				DTextModel model = new DTextModel();
 				model.setFont((String)font.getSelectedItem());
-				if(text.getText().equals(null)){
+				if(!text.getText().equals(null)){
 				model.setText(text.getText());
 				}
 				textfile.setModel(model);

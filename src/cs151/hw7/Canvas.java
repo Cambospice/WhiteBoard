@@ -82,11 +82,21 @@ public class Canvas extends JPanel{
 		}
 		if(selected != null){
 			Point[] knobs = selected.getKnobs();
-			for(int i=0; i < 4; i++){
+			for(int i=0; i < knobs.length; i++){
 				g.setColor(Color.BLACK);
 				g.fillRect((int)knobs[i].getX()-4,(int)knobs[i].getY()-4,9,9);
 			}
 		}
+	}
+	
+	public void moveToBack(){
+		shapes.remove(selected);
+		shapes.add(shapes.size()-1, selected);
+	}
+	
+	public void moveToFront(){
+		shapes.remove(selected);
+		shapes.add(selected);
 	}
 	
 	private class Dragger implements MouseListener, MouseMotionListener {
