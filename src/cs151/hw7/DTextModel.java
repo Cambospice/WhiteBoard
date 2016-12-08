@@ -33,13 +33,4 @@ public class DTextModel extends DShapeModel {
 		return theFont;
 	}
 
-	public static void showKnobsIfSelected(Graphics g) {
-		if (DShape.isSelected) {
-			Rectangle[] knobs = getKnobs();
-			for (int i = 0; i < knobs.length; i++) {
-				g.setColor(Color.GRAY);
-				g.fillRect(knobs[i].x, knobs[i].y, knobs[i].width, knobs[i].height);
-			}
-		}
-	}
 }

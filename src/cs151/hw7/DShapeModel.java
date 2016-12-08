@@ -17,10 +17,6 @@ public class DShapeModel implements Serializable {
     private Rectangle shapeRectangle;
     private ArrayList<ModelListener> listeners = new ArrayList<>();
 
-    public static final int KNOB_SIZE = 12;
-    public static final Rectangle[] knobs = new Rectangle[4];
-
-
     public DShapeModel() {
         this.x = new Random().nextInt(400);
         this.y = new Random().nextInt(400);
@@ -91,10 +87,6 @@ public class DShapeModel implements Serializable {
         this.shapeRectangle = shapeRectangle;
         notifyListeners();
     }
-
-    public static Rectangle[] getKnobs() {
-        return knobs;
-    }
     
     public Rectangle getBounds(){
         return new Rectangle(getX(), getY(), getWidth() + 9, getHeight() + 9);
@@ -105,10 +97,10 @@ public class DShapeModel implements Serializable {
     }
 
     public void notifyListeners(){
-
         for(ModelListener listener: listeners){
             listener.modelChanged(DShapeModel.this);
         }
     }
+  }
 
-}
+

@@ -130,7 +130,8 @@ public class Whiteboard extends JFrame {
 		JButton remove = new JButton("Remove");
 		moveToFront.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				canvas.deleteShape();
+				canvas.repaint();
 			}
 		});
 		b.add(remove);

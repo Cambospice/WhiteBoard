@@ -10,14 +10,4 @@ public class DOvalModel extends DShapeModel {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public static void showKnobsIfSelected(Graphics g) {
-		if (DShape.isSelected) {
-
-			for (int i = 0; i < knobs.length; i++) {
-				g.setColor(Color.GRAY);
-				g.fillRect(knobs[i].x, knobs[i].y, knobs[i].width, knobs[i].height);
-			}
-		}
-	}
 }

@@ -26,6 +26,10 @@ public class Canvas extends JPanel{
 		addShape(shape.getModel());
 	}
 
+	public void deleteShape(){
+		shapes.remove((DShape)selected);
+		selected = null;
+	}
 	
 	public void addShape(DShapeModel shape){
 		if (shape instanceof DRectModel) {
@@ -72,6 +76,13 @@ public class Canvas extends JPanel{
 
 			}
 		}
+		if(selected != null){
+			Point[] knobs = selected.getKnobs();
+			for(int i=0; i < 4; i++){
+				g.setColor(Color.BLACK);
+				g.fillRect((int)knobs[i].getX()-4,(int)knobs[i].getY()-4,9,9);
+			}
+		}
 	}
 	
 	private class Dragger implements MouseListener, MouseMotionListener {
@@ -86,9 +97,9 @@ public class Canvas extends JPanel{
 					selected = shape;
 					distX = e.getX() - shape.getModel().getX(); 
 					distY = e.getY() - shape.getModel().getY();
-					
 				}
-			}
+			} 
+			repaint();
 		}
 		public void mouseDragged(MouseEvent e){
 			if(selected != null){
