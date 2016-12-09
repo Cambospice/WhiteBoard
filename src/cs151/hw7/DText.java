@@ -31,12 +31,14 @@ public class DText extends DShape {
 		return font;
 	}
 	
+	
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		DTextModel textModel = (DTextModel) model;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Font font = computeFont(g);
 		g2.setFont(font);
+		g2.setColor(textModel.getColor());
 		g2.drawString(textModel.getText(), textModel.getX(), textModel.getY()+textModel.getHeight());
 
 	}

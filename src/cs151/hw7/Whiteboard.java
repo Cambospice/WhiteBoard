@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 
 public class Whiteboard extends JFrame {
 	BorderLayout border = new BorderLayout();
@@ -172,6 +173,8 @@ public class Whiteboard extends JFrame {
 		return combinedBox;
 	}
 	
+	
+	
 	public void saveImage(File file) {
 		// Create an image bitmap, same size as ourselves
 		BufferedImage image = (BufferedImage) createImage(getWidth(), getHeight());
@@ -189,12 +192,36 @@ public class Whiteboard extends JFrame {
 		}
 	}
 
-	public JTable table() { // not written
-		JTable table = new JTable();
-		return table;
+	public JTable table(){
+		String[] columnNames = { "x","y", "width", "height"};
+		JScrollPane scroller = new JScrollPane();
+		scroller.setPreferredSize(new Dimension(300,400));
+		return null;
 	}
-
 	public static void main(String[] args) {
 		Whiteboard w = new Whiteboard();
+	}
+	
+	private class DTableModel extends AbstractTableModel{
+		
+
+		@Override
+		public int getRowCount() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public int getColumnCount() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
 	}
 }

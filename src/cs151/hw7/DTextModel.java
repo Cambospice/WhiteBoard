@@ -23,6 +23,7 @@ public class DTextModel extends DShapeModel {
 		theFont = defaultFont;
 	}
 
+	
 	public void setText(String t) {
 		theWord = t;
 	}

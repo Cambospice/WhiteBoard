@@ -25,7 +25,6 @@ public class DLine extends DShape {
 		g2.setColor(model.getColor());
 		g2.drawLine(model.getX(), model.getY(), model.getX() + model.getHeight(), model.getY() + model.getHeight());
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-		//DLineModel.showKnobsIfSelected(g2);
 	}
 	
 	public Point[] getKnobs(){
