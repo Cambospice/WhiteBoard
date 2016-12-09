@@ -276,16 +276,16 @@ public class Whiteboard extends JFrame {
 				// we could do this if we wanted to write to server in addition
 				// to reading
 				// out = new ObjectOutputStream(toServer.getOutputStream());
-				while (true) {
-					// Get the xml string, decode to a Message object.
-					// Blocks in readObject(), waiting for server to send something.
-					String xmlString = (String) in.readObject();
-					XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(xmlString.getBytes()));
-					Message message = (Message) decoder.readObject();
-
-					//System.out.println("client: read " + message);
-				//	invokeToGUI(message);
-				}
+//				while (true) {
+//					// Get the xml string, decode to a Message object.
+//					// Blocks in readObject(), waiting for server to send something.
+//					String xmlString = (String) in.readObject();
+//					XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(xmlString.getBytes()));
+//					Message message = (Message) decoder.readObject();
+//
+//					System.out.println("client: read " + message);
+//				//	invokeToGUI(message);
+//				}
 			}
 			catch (Exception ex) { // IOException and ClassNotFoundException
 				ex.printStackTrace();
