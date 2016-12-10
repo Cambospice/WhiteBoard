@@ -1,7 +1,5 @@
 package cs151.hw7;
 
-import sun.plugin2.message.Message;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +16,7 @@ import javax.swing.*;
 public class Whiteboard extends JFrame {
 	BorderLayout border = new BorderLayout();
 	Canvas canvas = new Canvas();
+	TableModel tableModel = new TableModel();
 	JLabel status;
 	private ClientHandler clientHandler;
 	private ServerAccepter serverAccepter;
@@ -32,16 +31,18 @@ public class Whiteboard extends JFrame {
 		Box network=network();
 		Box movement = movement();
 		Box text = text();
+		Box table = table();
 		Box vertical = Box.createVerticalBox();
 		vertical.add(controls);
-		vertical.add(Box.createVerticalStrut(70));
+		vertical.add(Box.createVerticalStrut(40));
 		vertical.add(color);
 		vertical.add(network);
-		vertical.add(Box.createVerticalStrut(70));
+		vertical.add(Box.createVerticalStrut(40));
 		vertical.add(text);
-		vertical.add(Box.createVerticalStrut(70));
+		vertical.add(Box.createVerticalStrut(40));
 		vertical.add(movement);
-		vertical.add(Box.createVerticalStrut(70));
+		vertical.add(Box.createVerticalStrut(40));
+		vertical.add(table);
 		for (Component comp : vertical.getComponents()) {
 			((JComponent) comp).setAlignmentX(Box.LEFT_ALIGNMENT);
 		}
@@ -56,7 +57,9 @@ public class Whiteboard extends JFrame {
 		JButton rect = new JButton("Rect");
 		rect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				canvas.addShape(new DRect());
+				DRect rect = new DRect();
+				canvas.addShape(rect);
+				tableModel.addModel(rect.getModel());
 				canvas.repaint();
 			}
 		});
@@ -251,9 +254,13 @@ public class Whiteboard extends JFrame {
 		}
 	}
 
-	public JTable table() { // not written
-		JTable table = new JTable();
-		return table;
+	public Box table() { // not written
+		Box b = Box.createHorizontalBox();
+		JTable table = new JTable(tableModel);
+		JScrollPane scroller = new JScrollPane(table);
+		scroller.setPreferredSize(new Dimension(300,400));
+		b.add(scroller);
+		return b;
 	}
 	// Client runs this to handle incoming messages
 	// (our client only uses the inputstream of the connection)

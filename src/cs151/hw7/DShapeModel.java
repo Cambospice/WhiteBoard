@@ -96,6 +96,13 @@ public class DShapeModel implements Serializable {
         return listeners;
     }
 
+    public void addListener(ModelListener l){
+    	listeners.add(l);
+    }
+    
+    public void removeListener(ModelListener l){
+    	listeners.remove(l);
+    }
     public void notifyListeners(){
         for(ModelListener listener: listeners){
             listener.modelChanged(DShapeModel.this);
