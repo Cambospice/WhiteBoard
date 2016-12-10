@@ -18,10 +18,10 @@ public class DShapeModel implements Serializable {
     private ArrayList<ModelListener> listeners = new ArrayList<>();
 
     public DShapeModel() {
-        this.x = new Random().nextInt(400);
-        this.y = new Random().nextInt(400);
-        this.width = 50;
-        this.height = 50;
+        this.x = 10;
+        this.y = 10;
+        this.width = 20;
+        this.height = 20;
         this.color = Color.GRAY;
     }
     
@@ -68,7 +68,6 @@ public class DShapeModel implements Serializable {
     }
 
     public void setWidth(int width) {
-
         this.width = width;
         notifyListeners();
     }
