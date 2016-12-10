@@ -26,6 +26,18 @@ public class TableModel extends AbstractTableModel implements ModelListener {
 		fireTableDataChanged();
 	}
 	
+	public void moveToBack(DShapeModel model){
+		models.remove(model);
+		models.add(model);
+		fireTableDataChanged();
+	}
+	
+	public void moveToFront(DShapeModel model){
+		models.remove(model);
+		models.add(0,model);
+		fireTableDataChanged();
+	}
+	
 	public void removeModel(DShapeModel model){
 		models.remove(model);
 		model.removeListener(this);

@@ -68,7 +68,9 @@ public class Whiteboard extends JFrame {
 		JButton oval = new JButton("Oval");
 		oval.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				canvas.addShape(new DOval());
+				DOval oval = new DOval();
+				canvas.addShape(oval);
+				tableModel.addModel(oval.getModel());
 				canvas.repaint();
 			}
 		});
@@ -77,7 +79,9 @@ public class Whiteboard extends JFrame {
 		JButton line = new JButton("Line");
 		line.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				canvas.addShape(new DLine());
+				DLine line = new DLine();
+				canvas.addShape(line);
+				tableModel.addModel(line.getModel());
 				canvas.repaint();
 			}
 		});
@@ -173,7 +177,8 @@ public class Whiteboard extends JFrame {
 		JButton moveToFront = new JButton("Move to Front");
 		moveToFront.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				canvas.moveToFront();
+				DShape selected = canvas.moveToFront();
+				tableModel.moveToFront(selected.getModel());
 				canvas.repaint();
 			}
 		});
@@ -182,7 +187,8 @@ public class Whiteboard extends JFrame {
 		JButton moveToBack = new JButton("Move to Back");
 		moveToBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				canvas.moveToBack();
+				DShape selected = canvas.moveToBack();
+				tableModel.moveToBack(selected.getModel());
 				canvas.repaint();
 			}
 		});
@@ -227,6 +233,7 @@ public class Whiteboard extends JFrame {
 				}
 				textfile.setModel(model);
 				canvas.addShape(textfile);
+				tableModel.addModel(textfile.getModel());
 				canvas.repaint();
 			}
 		});

@@ -89,14 +89,16 @@ public class Canvas extends JPanel{
 		}
 	}
 	
-	public void moveToBack(){
+	public DShape moveToBack(){
 		shapes.remove(selected);
 		shapes.add(shapes.size()-1, selected);
+		return selected;
 	}
 	
-	public void moveToFront(){
+	public DShape moveToFront(){
 		shapes.remove(selected);
 		shapes.add(selected);
+		return selected;
 	}
 	
 	private class Dragger implements MouseListener, MouseMotionListener {
