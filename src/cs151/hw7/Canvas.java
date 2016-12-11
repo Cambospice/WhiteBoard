@@ -1,7 +1,6 @@
 package cs151.hw7;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -21,7 +20,7 @@ public class Canvas extends JPanel{
 		this.addMouseListener(drag);
 		this.addMouseMotionListener(drag);
 	}
-			
+
 	public void addShape(DShape shape){
 		addShape(shape.getModel());
 	}
@@ -30,7 +29,7 @@ public class Canvas extends JPanel{
 		shapes.remove((DShape)selected);
 		selected = null;
 	}
-	
+
 	public void addShape(DShapeModel shape){
 		if (shape instanceof DRectModel) {
 			DRectModel rectModel = (DRectModel) shape;
@@ -53,11 +52,22 @@ public class Canvas extends JPanel{
 			shapes.add(text);
 		}
 	}
-	
+	public void clear() {
+		if(shapes.size() > 0) {
+			if(DShape.isSelected) {
+				//DataTable.removeRow(shapes.indexOf(selectedShape));
+				shapes.remove(selected);
+			}
+			selected = null;
+			DShape.isSelected = false;
+			repaint();
+		}
+	}
+
 	public void paintSelected(Color c){
 		selected.getModel().setColor(c);
 	}
-	
+
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		for(DShape shape: shapes){
@@ -88,19 +98,19 @@ public class Canvas extends JPanel{
 			}
 		}
 	}
-	
+
 	public DShape moveToBack(){
 		shapes.remove(selected);
 		shapes.add(shapes.size()-1, selected);
-		return selected;
+		return null;
 	}
-	
+
 	public DShape moveToFront(){
 		shapes.remove(selected);
 		shapes.add(selected);
-		return selected;
+		return null;
 	}
-	
+
 	private class Dragger implements MouseListener, MouseMotionListener {
 		int distX;
 		int distY;
@@ -111,10 +121,10 @@ public class Canvas extends JPanel{
 			for(DShape shape : shapes){
 				if(shape.getModel().getBounds().contains(new Point(x,y))){
 					selected = shape;
-					distX = e.getX() - shape.getModel().getX(); 
+					distX = e.getX() - shape.getModel().getX();
 					distY = e.getY() - shape.getModel().getY();
 				}
-			} 
+			}
 			repaint();
 		}
 		public void mouseDragged(MouseEvent e){
@@ -129,34 +139,34 @@ public class Canvas extends JPanel{
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			
-			
+
+
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 	}
-	
+
 }
