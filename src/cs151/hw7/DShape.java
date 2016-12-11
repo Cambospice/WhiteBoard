@@ -9,12 +9,12 @@ import javax.swing.JComponent;
 public class DShape {
 
     public DShapeModel model;
+    protected boolean needsRecomputeKnobs;
+    public static final int KNOB_SIZE = 9;
+    public static boolean isSelected = false;
 
-    /**
-     * Constructs a DShape object with a model for its data
-     * @param model to store data in
-     */
-    
+
+
     public DShape(){
     	model = new DShapeModel();
     }
@@ -30,7 +30,18 @@ public class DShape {
     public DShapeModel getModel() {
         return this.model;
     }
-    
+    public void move(int dx, int dy) {
+        needsRecomputeKnobs = true;
+        model.move(dx, dy);
+    }
+
+    public void modifyShapeWithPoints(Point anchorPoint, Point movingPoint) {
+        needsRecomputeKnobs = true;
+        model.modifyWithPoints(anchorPoint, movingPoint);
+    }
+
+
+
     public Point[] getKnobs(){
     	Point[] knobs = new Point[4];
     	knobs[0] = new Point(getModel().getX(),getModel().getY());
