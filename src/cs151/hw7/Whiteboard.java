@@ -11,42 +11,46 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.*;
 
 public class Whiteboard extends JFrame {
 	BorderLayout border = new BorderLayout();
-	Canvas canvas = new Canvas();
+	Canvas canvas = new Canvas(this);
 	TableModel tableModel = new TableModel();
 	JLabel status;
+	Box vertical = Box.createVerticalBox();
+	Box controls = controls();
+	Box openSave=openSave();
+	Box color = color();
+	Box network=network();
+	Box movement = movement();
+	Box text = text();
+	Box table = table();
 	private ClientHandler clientHandler;
 	private ServerAccepter serverAccepter;
-	//ServerButtons serverButtons;
+	private ArrayList<ObjectOutputStream> outputs = new ArrayList<ObjectOutputStream>(); 
+	private static int idnumber = 0;
+	//ServerButtons serverButtons
 
 	public Whiteboard() {
 		super("Whiteboard");
 		this.setLayout(border);
 		this.setSize(800, 400);
-		Box controls = controls();
-		Box openSave=openSave();
-		Box color = color();
-		Box network=network();
-		Box movement = movement();
-		Box text = text();
-		Box table = table();
-		Box vertical = Box.createVerticalBox();
+		this.add(canvas, BorderLayout.CENTER);
 		vertical.add(controls);
-		vertical.add(Box.createVerticalStrut(40));
+		vertical.add(Box.createVerticalStrut(20));
 		vertical.add(color);
-		vertical.add(Box.createVerticalStrut(40));
+		vertical.add(Box.createVerticalStrut(20));
 		vertical.add(openSave);
-		vertical.add(Box.createVerticalStrut(40));
+		vertical.add(Box.createVerticalStrut(20));
 		vertical.add(network);
-		vertical.add(Box.createVerticalStrut(40));
+		vertical.add(Box.createVerticalStrut(20));
 		vertical.add(text);
-		vertical.add(Box.createVerticalStrut(40));
+		vertical.add(Box.createVerticalStrut(20));
 		vertical.add(movement);
-		vertical.add(Box.createVerticalStrut(40));
+		vertical.add(Box.createVerticalStrut(20));
 		vertical.add(table);
 		for (Component comp : vertical.getComponents()) {
 			((JComponent) comp).setAlignmentX(Box.LEFT_ALIGNMENT);
@@ -54,18 +58,39 @@ public class Whiteboard extends JFrame {
 		this.add(vertical, BorderLayout.WEST);
 		this.setVisible(true);
 	}
+	
+	public void disableControls(){
+		for (Component comp : controls.getComponents()){
+			((JComponent) comp).setEnabled(false);
+					}
+		for (Component comp : color.getComponents()){
+			((JComponent) comp).setEnabled(false);
+					}
+		for (Component comp : network.getComponents()){
+			((JComponent) comp).setEnabled(false);
+					}
+		for (Component comp : text.getComponents()){
+			((JComponent) comp).setEnabled(false);
+					}
+		for (Component comp : movement.getComponents()){
+			((JComponent) comp).setEnabled(false);
+					}
+		canvas.disableFunctions();
+		
+	}
 
 	public Box controls() {
 		//ListenForButton listenForButton = new ListenForButton();
 		Box b = Box.createHorizontalBox();
 		Box vb = Box.createVerticalBox();
-		JLabel add=new JLabel();
-		add.setText("Add");
-		b.add(add);
+		JLabel addShape=new JLabel();
+		addShape.setText("Add Shapes: ");
+		b.add(addShape);
 		JButton rect = new JButton("Rect");
 		rect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DRect rect = new DRect();
+				rect.getModel().setID(idnumber++);
 				canvas.addShape(rect);
 				tableModel.addModel(rect.getModel());
 				canvas.repaint();
@@ -77,6 +102,7 @@ public class Whiteboard extends JFrame {
 		oval.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DOval oval = new DOval();
+				oval.getModel().setID(idnumber++);
 				canvas.addShape(oval);
 				tableModel.addModel(oval.getModel());
 				canvas.repaint();
@@ -88,6 +114,7 @@ public class Whiteboard extends JFrame {
 		line.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DLine line = new DLine();
+				line.getModel().setID(idnumber++);
 				canvas.addShape(line);
 				tableModel.addModel(line.getModel());
 				canvas.repaint();
@@ -97,11 +124,11 @@ public class Whiteboard extends JFrame {
 		b.add(Box.createHorizontalStrut(40));
 
 
-		this.add(canvas, BorderLayout.CENTER);
+		
 		return b;
 	}
-    public Box openSave(){
-	    Box b = Box.createHorizontalBox();
+	public Box openSave(){
+		Box b = Box.createHorizontalBox();
 		JButton save = new JButton("Save");
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -141,7 +168,9 @@ public class Whiteboard extends JFrame {
 		});
 		b.add(open);
 		return b;
-    }
+	}
+
+
 	public Box network() {
 		Box b = Box.createHorizontalBox();
 		JButton button;
@@ -179,8 +208,8 @@ public class Whiteboard extends JFrame {
 				c = JColorChooser.showDialog(null, "Pick a Color", canvas.getForeground());
 				if (c != null)
 					color.setBackground(c);
-				canvas.paintSelected(c);
-				canvas.repaint();
+					canvas.paintSelected(c);
+					canvas.repaint();
 			}
 		});
 
@@ -202,7 +231,7 @@ public class Whiteboard extends JFrame {
 	// Runs a client handler to connect to a server.
 	// Wired to Client button.
 	public void doClient() {
-		status.setText("Client");
+		status.setText("Client Mode");
 		String result = JOptionPane.showInputDialog("Connect to host:port", "127.0.0.1:39587");
 		if (result!=null) {
 			String[] parts = result.split(":");
@@ -241,7 +270,7 @@ public class Whiteboard extends JFrame {
 			}
 		});
 		b.add(remove);
-
+		
 		return b;
 	}
 
@@ -268,11 +297,12 @@ public class Whiteboard extends JFrame {
 				DTextModel model = new DTextModel();
 				model.setFont((String)font.getSelectedItem());
 				if(!text.getText().equals(null)){
-					model.setText(text.getText());
+				model.setText(text.getText());
 				}
 				textfile.setModel(model);
 				canvas.addShape(textfile);
 				tableModel.addModel(textfile.getModel());
+				
 				canvas.repaint();
 			}
 		});
@@ -283,23 +313,6 @@ public class Whiteboard extends JFrame {
 		return combinedBox;
 	}
 
-//	public void saveImage(File file) {
-//		// Create an image bitmap, same size as ourselves
-//		BufferedImage image = (BufferedImage) createImage(getWidth(), getHeight());
-//		// Get Graphics pointing to the bitmap, and call paintAll()
-//		// This is the RARE case where calling paint() is appropriate
-//		// (normally the system calls paint()/paintComponent())
-//		Graphics g = image.getGraphics();
-//		paintAll(g);
-//		g.dispose(); // Good but not required--
-//		// dispose() Graphics you create yourself when done with them.
-//		try {
-//			javax.imageio.ImageIO.write(image, "PNG", file);
-//		} catch (IOException ex) {
-//			ex.printStackTrace();
-//		}
-//	}
-
 	public Box table() { // not written
 		Box b = Box.createHorizontalBox();
 		JTable table = new JTable(tableModel);
@@ -308,6 +321,75 @@ public class Whiteboard extends JFrame {
 		b.add(scroller);
 		return b;
 	}
+	
+	public synchronized void sendRemote(Message message) { 
+        String xmlString = getXMLStringForMessage(message); 
+        Iterator<ObjectOutputStream> it = outputs.iterator(); 
+        while(it.hasNext()) { 
+            ObjectOutputStream out = it.next(); 
+            try { 
+                out.writeObject(xmlString); 
+                out.flush(); 
+            } catch (Exception ex) { 
+                ex.printStackTrace(); 
+                it.remove(); 
+            } 
+        } 
+    } 
+	
+	 public void sendMessage(int command, DShapeModel model) { 
+	        Message message = new Message(); 
+	        message.setCommand(command); 
+	        message.setModel(model); 
+	        sendRemote(message); 
+	    } 
+	
+	public void processMessage(final Message message) { 
+        SwingUtilities.invokeLater(new Runnable() { 
+            public void run() { 
+                DShape shape = canvas.findShape(message.getModel()); 
+                System.out.println(message.getCommand());
+                switch(message.getCommand()) { 
+                    case Message.ADD: 
+                        if(shape == null) 
+                            canvas.addShape(message.getModel()); 
+                        	tableModel.addModel(message.getModel());
+                        	canvas.repaint();
+                        break; 
+                    case Message.REMOVE:  
+                        if(shape != null) 
+                            canvas.deleteShape(shape);
+                        	tableModel.removeModel(message.getModel());
+                        	canvas.repaint();
+                        break; 
+                    case Message.BACK:  
+                        if(shape != null) 
+                            canvas.moveToBack(shape);
+                        	tableModel.moveToBack(message.getModel());
+                        	canvas.repaint();
+                        break; 
+                    case Message.FRONT:  
+                        if(shape != null) 
+                            canvas.moveToFront(shape);
+                        	tableModel.moveToFront(message.getModel());
+                        	canvas.repaint();
+                        break; 
+                    case Message.CHANGE: 
+                    	shape = canvas.findShapebyID(message.getModel());
+                        if(shape != null){
+                        	shape.getModel().mimic(message.getModel());
+                        	canvas.renewData(shape);
+                        	tableModel.modelChanged(shape.getModel());
+                        	System.out.println("here");
+                        	canvas.repaint();
+                        }
+                        break; 
+                    default: break; 
+                } 
+            }
+
+        }); 
+    } 
 	// Client runs this to handle incoming messages
 	// (our client only uses the inputstream of the connection)
 	private class ClientHandler extends Thread {
@@ -326,19 +408,15 @@ public class Whiteboard extends JFrame {
 				// get input stream to read from server and wrap in object input stream
 				ObjectInputStream in = new ObjectInputStream(toServer.getInputStream());
 				System.out.println("client: connected!");
-				// we could do this if we wanted to write to server in addition
-				// to reading
-				// out = new ObjectOutputStream(toServer.getOutputStream());
-//				while (true) {
+				disableControls();
+				while (true) {
 //					// Get the xml string, decode to a Message object.
-//					// Blocks in readObject(), waiting for server to send something.
-//					String xmlString = (String) in.readObject();
-//					XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(xmlString.getBytes()));
-//					Message message = (Message) decoder.readObject();
-//
-//					System.out.println("client: read " + message);
-//				//	invokeToGUI(message);
-//				}
+				// Blocks in readObject(), waiting for server to send something.
+					String xmlString = (String) in.readObject();
+					XMLDecoder decoder = new XMLDecoder(new ByteArrayInputStream(xmlString.getBytes()));
+					Message message = (Message) decoder.readObject();
+					processMessage(message);
+				}
 			}
 			catch (Exception ex) { // IOException and ClassNotFoundException
 				ex.printStackTrace();
@@ -349,11 +427,9 @@ public class Whiteboard extends JFrame {
 		}
 	}
 	// (this and sendToOutputs() are synchronzied to avoid conflicts)
-//	public synchronized void addOutput(ObjectOutputStream out) {
-//		outputs.add(out);
-//	}
-//	private java.util.List<ObjectOutputStream> outputs =
-//			new ArrayList<ObjectOutputStream>();
+	public synchronized void addOutput(ObjectOutputStream out) {
+		outputs.add(out);
+	}
 
 	// Server thread accepts incoming client connections
 	class ServerAccepter extends Thread {
@@ -369,19 +445,62 @@ public class Whiteboard extends JFrame {
 					// this blocks, waiting for a Socket to the client
 					toClient = serverSocket.accept();
 					System.out.println("server: got client");
+					
 					// Get an output stream to the client, and add it to
 					// the list of outputs
-					// (our server only uses the output stream of the connection)
-					//addOutput(new ObjectOutputStream(toClient.getOutputStream()));
+					// (our server only uses the output stream of the connection) 
+                    addOutput(new ObjectOutputStream(toClient.getOutputStream()));
 				}
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
 		}
-
-
-
 	}
+	
+	 public String getXMLStringForMessage(Message message) { 
+	        OutputStream memStream = new ByteArrayOutputStream(); 
+	        XMLEncoder encoder = new XMLEncoder(memStream); 
+	        encoder.writeObject(message); 
+	        encoder.close(); 
+	        return memStream.toString(); 
+	    } 
+	
+	public static class Message { 
+	        public static final int ADD    = 0; 
+	        public static final int REMOVE = 1; 
+	        public static final int FRONT  = 2; 
+	        public static final int BACK   = 3; 
+	        public static final int CHANGE = 4; 
+	         
+	        public int command; 
+	        public DShapeModel model; 
+	         
+	        public Message() { 
+	            command = -1; 
+	            model = null; 
+	        } 
+	         
+	        public Message(int command, DShapeModel model) { 
+	            this.command = command; 
+	            this.model = model; 
+	        } 
+	         
+	        public int getCommand() { 
+	            return command; 
+	        } 
+	         
+	        public void setCommand(int cmd) { 
+	            command = cmd; 
+	        } 
+	         
+	        public DShapeModel getModel() { 
+	            return model; 
+	        } 
+	         
+	        public void setModel(DShapeModel model) { 
+	            this.model = model; 
+	        } 
+	    }
 	public void save(File file) {
 		try {
 			XMLEncoder xmlOut = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(file)));
@@ -429,5 +548,6 @@ public class Whiteboard extends JFrame {
 	}
 	public static void main(String[] args) {
 		Whiteboard w = new Whiteboard();
+		Whiteboard w2 = new Whiteboard();
 	}
 }
